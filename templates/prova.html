@@ -90,9 +90,13 @@
                         <form id="registrazione-edificio">
                             <div class="mb-3">
                                 <label for="indirizzo" class="form-label">Indirizzo</label>
-                                <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
+                                <div class="input-group">
+                                    <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
+                                    <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo">
+                                        <img src="../static/lense.jpg" alt="Cerca" style="width: 20px; height: 20px;">
+                                    </button>
+                                </div>
                             </div>
-
                             <div class="mb-3">
                                 <label for="codice-catastale" class="form-label">Codice Catastale</label>
                                 <input type="text" id="codice-catastale" name="codice-catastale" class="form-control" placeholder="Inserisci codice catastale">
