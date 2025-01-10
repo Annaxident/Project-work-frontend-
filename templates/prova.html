@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione Edifici - Banda Ultralarga</title>
+    <link href="https://unpkg.com/bootstrap-italia@2.11.0/dist/css/bootstrap-italia.min.css" rel="stylesheet">
+    <style>
+        #map-container {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+     Header
+    <div class="it-header-slim-wrapper bg-primary text-white">
+        <div class="container-xxl">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <span>Ente Appartenenza</span>
+                </div>
+                <div class="col-6 text-end">
+                    <a href="#" class="text-white">Accedi all'area personale</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <header class="it-header-wrapper">
+        <div class="it-header-center-wrapper bg-primary">
+            <div class="container-xxl">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="it-header-center-content-wrapper d-flex justify-content-between align-items-center">
+                            <div class="it-brand-wrapper">
+                                <a href="#">
+                                    <svg class="icon" aria-hidden="true"><use href="/svg/sprites.svg#it-pa"></use></svg>
+                                    <div class="it-brand-text">
+                                        <div class="it-brand-title">INFRATEL ITALIA</div>
+                                        <div class="it-brand-tagline d-none d-md-block">Tag line dell'Istituzione</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="it-right-zone d-flex align-items-center">
+                                <div class="it-socials d-none d-md-flex me-3">
+                                    <span>Seguici su</span>
+                                    <ul class="d-flex">
+                                        <li class="me-2"><a href="#" aria-label="Facebook"><svg class="icon"><use href="/svg/sprites.svg#it-facebook"></use></svg></a></li>
+                                        <li class="me-2"><a href="#" aria-label="Github"><svg class="icon"><use href="/svg/sprites.svg#it-github"></use></svg></a></li>
+                                        <li class="me-2"><a href="#" aria-label="Twitter"><svg class="icon"><use href="/svg/sprites.svg#it-twitter"></use></svg></a></li>
+                                    </ul>
+                                </div>
+                                <div class="it-search-wrapper">
+                                    <span class="d-none d-md-block">Cerca</span>
+                                    <a class="search-link rounded-icon" aria-label="Cerca nel sito" href="#">
+                                        <svg class="icon"><use href="/svg/sprites.svg#it-search"></use></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <h2 class="text-center">Registrazione degli Edifici Predisposti alla Banda Ultralarga</h2>
+        <p class="text-center">Compila il modulo sottostante per registrare un edificio predisposto alla banda ultralarga.</p>
+
+        <div class="row align-items-start">
+            <!-- Form -->
+            <div class="col-lg-4">
+                <div class="it-card">
+                    <div class="it-card-header">Modulo di Registrazione</div>
+                    <div class="it-card-body">
+                        <form id="registrazione-edificio">
+                            <div class="mb-3">
+                                <label for="indirizzo" class="form-label">Indirizzo</label>
+                                <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="codice-catastale" class="form-label">Codice Catastale</label>
+                                <input type="text" id="codice-catastale" name="codice-catastale" class="form-control" placeholder="Inserisci codice catastale">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tipo-edificio" class="form-label">Tipo Edificio</label>
+                                <select id="tipo-edificio" name="tipo-edificio" class="form-select">
+                                    <option value="">Seleziona</option>
+                                    <option value="residenziale">Residenziale</option>
+                                    <option value="commerciale">Commerciale</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="data-predisposizione" class="form-label">Data di Predisposizione</label>
+                                <input type="date" id="data-predisposizione" name="data-predisposizione" class="form-control">
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
+                                <button type="submit" class="btn btn-success">Invio</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mappa -->
+            <div class="col-lg-8">
+                <div class="it-card">
+                    <div class="it-card-header">Mappa</div>
+                    <div class="it-card-body">
+                        <div id="map-container">
+                            <p>Mappa qui</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabella -->
+        <div class="my-4">
+            <div class="it-card">
+                <div class="it-card-header">Dati Registrati</div>
+                <div class="it-card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Indirizzo</th>
+                                <th>Codice Catastale</th>
+                                <th>Tipo Edificio</th>
+                                <th>Data Predisposizione</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dati_registrati">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/bootstrap-italia@2.11.0/dist/js/bootstrap-italia.bundle.min.js"></script>
+    <script> //JS
+        function aggiungiDati() {
+            //prende i valori inseriti nel form
+            const indirizzo = document.getElementById("indirizzo").value.trim();
+            const codiceCatastale = document.getElementById("codice-catastale").value.trim();
+            const tipoEdificio = document.getElementById("tipo-edificio").value.trim();
+            const dataPredisposizione = document.getElementById("data-predisposizione").value.trim();
+    
+            // check campi obbligatori + alert
+            if (!indirizzo || !codiceCatastale || !tipoEdificio || !dataPredisposizione) {
+                alert("Per favore, compila tutti i campi del modulo.");
+                return;
+            }
+    
+            // seleziona la tabella
+            const tbody = document.getElementById("dati_registrati");
+    
+            // crea la riga mancante
+            const nuovaRiga = document.createElement("tr");
+    
+            // aggiunge le celle inserite nel form
+            nuovaRiga.innerHTML = `
+                <td>${indirizzo}</td>
+                <td>${codiceCatastale}</td>
+                <td>${tipoEdificio}</td>
+                <td>${dataPredisposizione}</td>
+            `;
+    
+            // aggiunge la riga al corpo
+            tbody.appendChild(nuovaRiga);
+    
+            // reset dopo l'invio
+            document.getElementById("registrazione-edificio").reset();
+        }
+    </script>
+    
+</body>
+</html>
