@@ -178,6 +178,7 @@
                 <td>${codiceCatastale}</td>
                 <td>${tipoEdificio}</td>
                 <td>${dataPredisposizione}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="eliminaRiga(this)">Elimina</button></td>
             `;
     
             // aggiunge la riga al corpo
@@ -185,6 +186,13 @@
     
             // reset dopo l'invio
             document.getElementById("registrazione-edificio").reset();
+
+            //trova la riga e la rimuove
+
+        }
+        function eliminaRiga(pulsante) {
+            const riga = pulsante.parentNode.parentNode;
+            riga.remove();
         }
     </script>
     
