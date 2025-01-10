@@ -126,9 +126,9 @@
                         <form id="registrazione-edificio">
                             <div class="mb-3">
                                 <label for="indirizzo" class="form-label">Indirizzo</label>
-                                <div class="input-group">
+                                <div class="input-group" id="controls">
                                     <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
-                                    <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo">
+                                    <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo" onclick="moveToAddress()">
                                         <img src="../static/lense.jpg" alt="Cerca" style="width: 20px; height: 20px;">
                                     </button>
                                 </div>
@@ -230,6 +230,140 @@
                             <div id="marker">
                                 <div id="tooltip"></div>
                         </div>
+                        <!-- INIZIO DEL JAVASCRIPT DELLA MAPPA 
+                            si trovano le funzioni di:
+                            -zoom in e zoom out
+                            -posizionamento del marker 
+                            -il loading dei diversi pezzzi della mappa "i tiles"
+                            -fumzione per lo spostamento all'indirizzo indicato
+                            
+                            
+                        -->
+                        <script>
+                            const map = document.getElementById('map');
+                            const marker = document.getElementById('marker');
+                            const tooltip = document.getElementById('tooltip');
+                            let zoom = 5; // Default zoom level
+                            let centerLat = 45.6; // Initial latitude (Lake Garda)
+                            let centerLon = 10.6; // Initial longitude (Lake Garda)
+                            const tileSize = 256;
+                    
+                            // Utility functions
+                            function latToY(lat, zoom) {
+                                return ((1 - Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) / Math.PI) / 2) * Math.pow(2, zoom);
+                            }
+                    
+                            function lonToX(lon, zoom) {
+                                return ((lon + 180) / 360) * Math.pow(2, zoom);
+                            }
+
+                            function loadTiles() {
+                                map.innerHTML = ''; // Clear existing tiles
+                                const centerX = lonToX(centerLon, zoom);
+                                const centerY = latToY(centerLat, zoom);
+                    
+                                const startTileX = Math.floor(centerX) - 2;
+                                const endTileX = Math.ceil(centerX) + 2;
+                                const startTileY = Math.floor(centerY) - 2;
+                                const endTileY = Math.ceil(centerY) + 2;
+                    
+                                for (let x = startTileX; x <= endTileX; x++) {
+                                    for (let y = startTileY; y <= endTileY; y++) {
+                                        const tileUrl = `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`;
+                                        const img = document.createElement('img');
+                                        img.src = tileUrl;
+                                        img.className = 'tile';
+                                        img.style.left = `${(x - centerX) * tileSize + map.clientWidth / 2}px`;
+                                        img.style.top = `${(y - centerY) * tileSize + map.clientHeight / 2}px`;
+                                        map.appendChild(img);
+                                    }
+                                }
+                    
+                                updateMarkerPosition();
+                            }
+
+                            function updateMarkerPosition() {
+                                const mapWidth = map.clientWidth;
+                                const mapHeight = map.clientHeight;
+                                const markerX = mapWidth / 2;
+                                const markerY = mapHeight / 2;
+                    
+                                marker.style.left = `${markerX}px`;
+                                marker.style.top = `${markerY}px`;
+                            }
+                            // Initial tile load
+                            loadTiles();
+
+                            // FUNZIONE PER FAR MUOVERE LA MAPPA ALL'INDIRIZZO DATO
+                            async function moveToAddress() {
+                                const address = document.getElementById('address').value;
+                                if (!address) {
+                                    alert('Please enter an address');
+                                    return;
+                                }
+                    
+                                // Use a free geocoding API (e.g., Nominatim)
+                                const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`);
+                                const data = await response.json();
+                    
+                                if (data.length === 0) {
+                                    alert('Address not found');
+                                    return;
+                                }
+                                // Get the first result's coordinates
+                                const lat = parseFloat(data[0].lat);
+                                const lon = parseFloat(data[0].lon);
+                    
+                                centerLat = lat;
+                                centerLon = lon;
+                    
+                                // Zoom to a closer level
+                                zoom = 13;
+                    
+                                // Reload tiles
+                                loadTiles();
+                    
+                                // Update tooltip
+                                tooltip.textContent = data[0].display_name;
+                                tooltip.style.display = 'block';
+                            }
+
+                            // Panning logic
+                            let isDragging = false;
+                            let startX, startY;
+                    
+                            map.addEventListener('mousedown', (e) => {
+                                isDragging = true;
+                                startX = e.clientX;
+                                startY = e.clientY;
+                                map.style.cursor = 'grabbing';
+                            });
+
+                            map.addEventListener('mousemove', (e) => {
+                                if (!isDragging) return;
+                    
+                                const deltaX = e.clientX - startX;
+                                const deltaY = e.clientY - startY;
+                    
+                                centerLon -= (deltaX / tileSize) * 360 / Math.pow(2, zoom);
+                                centerLat += (deltaY / tileSize) * 360 / Math.pow(2, zoom);
+                    
+                                startX = e.clientX;
+                                startY = e.clientY;
+                    
+                                loadTiles();
+                            });
+
+                            // Zooming logic
+                            map.addEventListener('wheel', (e) => {
+                                e.preventDefault();
+                                const newZoom = zoom - Math.sign(e.deltaY);
+                                if (newZoom >= 1 && newZoom <= 18) {
+                                    zoom = newZoom;
+                                    loadTiles();
+                                }
+                            });
+                        </script>
                     </div>
                     </div>
                 </div>
