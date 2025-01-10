@@ -6,6 +6,29 @@
     <title>Registrazione Edifici - Banda Ultralarga</title>
     <link href="https://unpkg.com/bootstrap-italia@2.11.0/dist/css/bootstrap-italia.min.css" rel="stylesheet">
     <style>
+
+.custom-border {
+
+    border: 2px solid #add8e6; /* Blu chiaro */
+
+    border-radius: 10px; /* Angoli arrotondati */
+
+    padding: 15px; /* Spazio interno */
+
+    margin: 15px; /* Spazio esterno */
+
+    background-color: #f9f9f9; /* Colore di sfondo opzionale */
+
+}
+
+
+
+        .container,
+.container-xxl {
+    padding-left: 260px; /* Margine sinistro molto ridotto */
+    padding-right: 260px; /* Margine destro molto ridotto */
+    max-width: 100%; /* Rimuove il limite massimo di larghezza */
+}
         #map-container {
             height: 400px;
             width: 100%;
@@ -64,6 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
+                        
                                 <!-- Navigazione sotto il Brand -->
                                 <nav class="d-flex gap-4 nav-lower">
                                     <a href="registrazione_edifici.html" class="text-white text-decoration-none nav-link" id="link-edifici">Registrazione edifici</a>
@@ -94,7 +118,7 @@
 
         <div class="row align-items-start">
             <!-- Form -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 custom-border">
                 <div class="it-card">
     
                     <div class="it-card-body">
