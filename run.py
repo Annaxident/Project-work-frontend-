@@ -16,7 +16,7 @@ from flask import render_template,url_for,request,jsonify
 def home():
     return render_template("registrazione_edifici.html")
 
-@app.route('/api/registrazione_edificio', methods=['POST'])
+@app.route('/api/registrazione_edificio', methods=['POST',"GET"])
 def registrazione_edificio():
     # Get the JSON data sent in the request
     data = request.get_json()  # The 'request.get_json()' method parses the incoming JSON
@@ -32,6 +32,13 @@ def registrazione_edificio():
     }
 
     print(new_building)
+    return jsonify("Success")
+
+@app.route("/api/confirm_request", methods = ["POST","GET"])
+def confirm_request():
+    print("It's working!!")
+    return jsonify("Success")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -202,7 +202,7 @@
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
-                                <button type="submit" class="btn btn-success" onclick="Confrim_request()">Invia</button>
+                                <button type="submit" class="btn btn-success" onclick="confirmRequest()">Invia</button>
                             </div>
                         </form>
                     </div>
@@ -372,10 +372,10 @@
             document.getElementById("registrazione-edificio").reset();
     }
         //COFIRM POST
-        function Confrim_request(){
-            // Questo codice prende per ipotesi che ci sia un db.session.add(address) sia nella route: api/registrazione_edificio
-            //  Cambiare il nome "confirm_request" alla route definita
-            fetch("api/confirm_request")
+        function confirmRequest(){
+            // Questo codice prende per ipotesi che ci sia un db.session.add(address) nella route: api/registrazione_edificio
+            // Cambiare il nome "confirm_request" alla route definita
+            fetch("/api/confirm_request")
             .then(response => response.json()) // Parse the JSON response from the backend
             .then(data => {
                 if (data.status == "success") {
@@ -386,7 +386,7 @@
             })
             .catch(error => {
                 console.error('Error during request:', error);
-                alert("An error occurred while committing changes.");
+                alert("Non è possibile inviare i dati!");
             });   
         }
 
