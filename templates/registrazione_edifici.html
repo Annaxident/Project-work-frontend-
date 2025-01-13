@@ -202,7 +202,7 @@
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
-                                <button type="submit" class="btn btn-success">Invio</button>
+                                <button type="submit" class="btn btn-success" onclick="Confrim_request()"</button>
                             </div>
                         </form>
                     </div>
@@ -302,19 +302,53 @@
 
     <script src="https://unpkg.com/bootstrap-italia@2.11.0/dist/js/bootstrap-italia.bundle.min.js"></script>
     <script>
-        function aggiungiDati() {
-            //prende i valori inseriti nel form
-            const indirizzo = document.getElementById("indirizzo").value.trim();
-            const codiceCatastale = document.getElementById("codice-catastale").value.trim();
-            const tipoEdificio = document.getElementById("tipo-edificio").value.trim();
-            const dataPredisposizione = document.getElementById("data-predisposizione").value.trim();
 
-            // check campi obbligatori + alert
-            if (!indirizzo || !codiceCatastale || !tipoEdificio || !dataPredisposizione) {
-                alert("Per favore, compila tutti i campi del modulo.");
-                return;
+    async function aggiungiDati() {
+    // prendi i valori dalla pagina web
+    const indirizzo = document.getElementById("indirizzo").value.trim();
+    const codiceCatastale = document.getElementById("codice-catastale").value.trim();
+    const tipoEdificio = document.getElementById("tipo-edificio").value.trim();
+    const dataPredisposizione = document.getElementById("data-predisposizione").value.trim();
+
+    // Verifica ogni campo
+    if (!indirizzo || !codiceCatastale || !tipoEdificio || !dataPredisposizione) {
+        alert("Per favore, compila tutti i campi del modulo.");
+        return;
+    }
+     // POST Request
+    // crea oggetto javascript per mandarlo al backend flask
+    const formData = {
+        indirizzo,
+        codiceCatastale,
+        tipoEdificio,
+        dataPredisposizione
+    };
+        try {
+            // Mandare il oggetto a flask(invece di "api/registrazione_edificio" metti route giusta)
+            const response = await fetch('/api/registrazione_edificio', {
+                method: 'POST',  
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(formData) 
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Success:", data);
+                alert("Edificio registrato con successo!");
+            } else {
+                console.error("Error:", response.statusText);
+                alert("Errore durante la registrazione dell'edificio.");
             }
-
+        } 
+        
+        catch (error) {
+            console.error('Network error:', error);
+            alert('Si è verificato un errore di rete.');
+        }
+        //POST 
+        
             // seleziona la tabella
             const tbody = document.getElementById("dati_registrati");
 
@@ -333,8 +367,27 @@
             // aggiunge la riga al corpo
             tbody.appendChild(nuovaRiga);
 
+            
             // reset dopo l'invio
             document.getElementById("registrazione-edificio").reset();
+    }
+        //COFIRM POST
+        function Confrim_request(){
+            // Questo codice prende per ipotesi che ci sia un db.session.add(address) sia nella route: api/registrazione_edificio
+            //  Cambiare il nome "confirm_request" alla route definita
+            fetch("api/confirm_request")
+            .then(response => response.json()) // Parse the JSON response from the backend
+            .then(data => {
+                if (data.status == "success") {
+                    alert("Indirizzi confermati!");
+                } else {
+                    alert("Errore!: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during request:', error);
+                alert("An error occurred while committing changes.");
+            });   
         }
 
         function eliminaRiga(pulsante) {
