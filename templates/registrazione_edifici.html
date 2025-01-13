@@ -5,122 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrazione Edifici - Banda Ultralarga</title>
     <link href="https://unpkg.com/bootstrap-italia@2.11.0/dist/css/bootstrap-italia.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
     <style>
         #map-container {
-            width: 100%; /* Occupa tutta la larghezza */
-            height: 452px; /* Altezza aumentata */
-            margin-top: 7px; /* Sposta la mappa più in basso */
-            margin-left: auto; /* Centra la mappa orizzontalmente */
-            margin-right: auto;
-            border: 1px solid #ccc; /* Bordo visibile */
-            background-color: #eaeaea; /* Colore di sfondo */
-        }
-        #map {
+            height: 600px;
             width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            cursor: grab;
+            margin-top: 5px;
         }
-        .it-brand-title {
-            font-size: 2.1rem;
-            margin-top: 8px;
-            font-weight: bold;
-        }
-        .it-brand-tagline {
-            font-size: 1rem;
-            margin-top: -12px; /* Sposta il tagline più in alto */
-            font-weight: bold; 
-        }
-        .it-header-slim-wrapper {
-            background-color: #013975;
-            height: 50px; /* Alza l'altezza */
-            padding: 55px 55;
-            display: flex; /* Attiva Flexbox */
-            align-items: center; /* Centra verticalmente */
-        }
-        .it-header-center-wrapper {
-            padding: 0; /* Rimuove spazio interno */
-            margin: 0; /* Rimuove margini */
-            height: 160px; /* Adatta all'altezza dei figli */
-        }
-        .custom-border {
-            border: 2px solid #2cb5ec; /* Blu chiaro */ 
-            border-radius: 10px; /* Angoli arrotondati */
-            padding: 12px; /* Spazio interno */
-            background-color: #f9f9f9; /* Colore di sfondo opzionale */
-        }
-            .custom-border-map {
-                width: 100%;
-                padding: 12px; /* Riduce lo spazio interno */
-                border: 2px solid #2cb5ec; /* Esempio di una cornice diversa */
-            }
-                    
-        bod,tr,h2 {
-            font-family: 'Titillium Web';
-            color: rgb(63, 63, 63);
-        }
+
         .nav-lower {
-            display: flex; /* Assicura che i link siano in riga */
-            justify-content: center; /* Centra i link orizzontalmente */
-            align-items: center; /* Centra i link verticalmente */
-            gap: 30px; /* Distanza tra le due scritte */
-            padding: 0px;
-            margin-bottom: -58px;
+        margin-top: 15px;
         }
         .nav-link {
-            padding: 0px;
-            margin: 0px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1); /* Colore leggermente più chiaro */
-        }
-        .container-xxl {
-            max-width: 1350px;
-            padding: 0;
-            margin: 0 auto; /* Mantiene centrato */
-        }
-        .italian-flag-line {
-            display: flex;
-            width: 100vw; /* Occupa tutta la larghezza dello schermo */
-            height: 3px; /* Altezza della linea */
-            margin-left: -298px;
-            position: relative; /* Per posizionarla in relazione al documento */
-            left: 0;
-        }
-        .flag-green {
-            flex: 1;
-            background-color: #008000; /* Verde */
-        }
-        .flag-white {
-            flex: 1;
-            background-color: #FFFFFF; /* Bianco */
-        }
-        .flag-red {
-            flex: 1;
-            background-color: #FF0000; /* Rosso */
-        }
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+        .d-flex.flex-column.align-items-start {
+    margin-top: 20px;
+}
+
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="it-header-slim-wrapper text-white" style="background-color: #013975;">
-        <div class="container-xxl" style="margin-left: 295px; margin-right: 10px;">
+        <div class="container-xxl">
             <div class="row align-items-center">
                 <div class="col-6">
-                    <span class="d-flex align-items-center" style="font-size: 1rem; font-weight: bold; margin-right: 0px;">
-                        <img src="../static/logo_repubblica_italiana.png" alt="Logo Ministero" style="height: 40px; margin-right: 4px;">
+                    <span class="d-flex align-items-center" style="font-size: 1rem; font-weight: bold";>
+                        <img src="../static/logo_repubblica_italiana.png" alt="Logo Ministero" style="height: 50px; margin-right: 8px;">
                         Ministero delle Imprese e del Made in Italy
                     </span>
                 </div>
-                <!-- <div class="col-6 text-end">
+                <div class="col-6 text-end">
                     <a href="#" class="text-white">Accedi all'area personale</a>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -131,133 +55,251 @@
                     <div class="col-12">
                         <div class="it-header-center-content-wrapper d-flex justify-content-between align-items-center">
                             <!-- Logo e Brand -->
-                            <div class="d-flex flex-column align-items-start" style="gap: 15px; margin-bottom: 45px;">
-                                <div class="d-flex align-items-center" style="margin-left: 3px; padding-top: 1px;">
-                                    <img src="../static/logo_sinfi.png" alt="Logo SINFI" style="height: 60px; margin-right: 15px;">
+                            <div class="d-flex flex-column align-items-start" style="margin-top: 20px;">
+                                <div class="d-flex align-items-center">
+                                    <img src="../static/logo_sinfi.png" alt="Logo SINFI" style="height: 50px; margin-right: 15px;">
                                     <div>
-                                        <div class="it-brand-title text-white">Sinfi</div>
-                                        <div class="it-brand-tagline text-white">Sistema Informativo Nazionale Federato delle Infrastrutture</div>
+                                        <div class="it-brand-title text-white">SINFI</div>
+                                        <div class="it-brand-tagline text-white">
+                                            Sistema Informativo Nazionale Federato delle Infrastrutture
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="italian-flag-line full-width">
-                                    <div class="flag-green"></div>
-                                    <div class="flag-white"></div>
-                                    <div class="flag-red"></div>
-                                </div>
                                 <!-- Navigazione sotto il Brand -->
-                                <nav class="d-flex nav-lower">
-                                    <a href="registrazione_edifici.html" class="text-white text-decoration-none nav-link" style="font-size: 1rem;" id="link-edifici">REGISTRAZIONE EDIFICI</a>
-                                    <a href="registrazione-terminazioni.html" class="text-white text-decoration-none nav-link" style="font-size: 1rem;" id="link-terminazioni">REGISTRAZIONE TERMINAZIONI OTTICHE</a>
+                                <nav class="d-flex gap-4 nav-lower">
+                                    <a href="registrazione_edifici.html" class="text-white text-decoration-none nav-link" id="link-edifici">Registrazione edifici</a>
+                                    <a href="registrazione-terminazioni.html" class="text-white text-decoration-none nav-link" id="link-terminazioni">Registrazione terminazioni ottiche</a>
                                 </nav>
                             </div>
-                            <!-- Sezione social
+        
+                            <!-- Sezione social -->
                             <div class="d-flex align-items-center gap-3">
                                 <span class="text-white">Seguici su</span>
                                 <a href="#" class="text-white text-decoration-none"><i class="fab fa-facebook"></i></a>
                                 <a href="#" class="text-white text-decoration-none"><i class="fab fa-instagram"></i></a>
                                 <a href="#" class="text-white text-decoration-none"><i class="fab fa-twitter"></i></a>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+    
+    
 
     <!-- Main Content -->
-    <main class="container my-1">
-        <h2 class="text-center" style="font-size: 1.7rem; margin-top: 5px; margin-bottom: 10px;  ">REGISTRAZIONE DEGLI EDIFICI PREDISPOSTI ALLA BANDA ULTRALARGA</h2>
-        <p class="text-start" style="font-size: 1rem; margin-left: -10px; margin-bottom: 10px;">Inserisci l'indirizzo per registrare un edificio e vedere le sue coordinate</p>
+    <main class="container my-3">
+        <h2 class="text-center"  style="font-size: 1.7rem";>Registrazione degli Edifici Predisposti alla Banda Ultralarga</h2>
+        <p class="text-center" style="font-size: 1rem"; >Compila il modulo sottostante per registrare un edificio predisposto alla banda ultralarga.</p>
 
-<!-- Form sopra la mappa -->
-<div class="custom-border mb-3">
-    <div class="it-card">
-        <div class="it-card-body">
-            <form id="registrazione-edificio">
-                <div class="mb-3">
-                    <label for="indirizzo" class="form-label">Indirizzo</label>
-                    <div class="input-group" id="controls">
-                        <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
-                        <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo" onclick="moveToAddress()">
-                            <img src="../static/lense.jpg" alt="Cerca" style="width: 20px; height: 20px;">
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
-                        <button type="submit" class="btn btn-success">Invio</button>
+            <!-- Form -->
+            <style>
+                .custom-border {
+                    border: 2px solid #add8e6; /* Blu chiaro */
+                    border-radius: 10px; /* Angoli arrotondati */
+                    padding: 15px; /* Spazio interno */
+                    background-color: #f9f9f9; /* Colore di sfondo opzionale */
+                }
+            </style>
+<div class="row">
+    <!-- Form -->
+    <div class="col-lg-4 custom-border">
+        <form id="registrazione-edificio">
+            <div class="mb-3">
+                <label for="indirizzo" class="form-label">Indirizzo</label>
+                <div class="input-group" id="controls">
+                    <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
+                    <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo" onclick="moveToAddress()">
+                        <img src="../static/lense.jpg" alt="Cerca" style="width: 20px; height: 20px;">
+                    </button>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="latitudine" class="form-label">Latitudine</label>
+                <input type="text" id="latitudine" name="latitudine" class="form-control" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="longitudine" class="form-label">Longitudine</label>
+                <input type="text" id="longitudine" name="longitudine" class="form-control" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="codice-catastale" class="form-label">Codice ISTAT</label>
+                <input type="text" id="codice-istat" name="codice-istat" class="form-control" placeholder="Inserisci codice ISTAT">
+            </div>
+            <div class="mb-3">
+                <label for="tipo-edificio" class="form-label">Tipo Edificio</label>
+                <select id="tipo-edificio" name="tipo-edificio" class="form-select">
+                    <option value="">Seleziona</option>
+                    <option value="residenziale">Residenziale</option>
+                    <option value="commerciale">Commerciale</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="data-predisposizione" class="form-label">Data di Predisposizione</label>
+                <input type="date" id="data-predisposizione" name="data-predisposizione" class="form-control">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
+            <button type="submit" class="btn btn-success">Invio</button>
+        </form>
+    </div>
+
+    <!-- Mappa -->
+    <div class="col-lg-8">
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+                        <style>
+                            #map-container {
+                                width: 90%;
+                                max-width: 1174px;
+                                aspect-ratio: 1174 / 515;
+                                position: relative;
+                                border: 1px solid #ccc;
+                                background-color: #eaeaea;
+                            }
+                            #map {
+                                width: 100%;
+                                height: 100%;
+                                position: relative;
+                                overflow: hidden;
+                                cursor: grab;
+                            
+                            }                      
+                        </style>
+                        <!-- INIZIO DEL JAVASCRIPT DELLA MAPPA 
+                            si trovano le funzioni di:
+                            -zoom in e zoom out
+                            -posizionamento del marker 
+                            -il loading dei diversi pezzzi della mappa "i tiles"
+                            -funzione per lo spostamento all'indirizzo indicato
+                            
+                            
+                        -->
+                        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inizializza la mappa
+        const map = L.map('map').setView([41.9028, 12.4964], 13); // Coordinate di default (Roma)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Aggiungi un marker di default
+        let marker = L.marker([41.9028, 12.4964]).addTo(map);
+
+ // Variabile globale per salvare le coordinate
+ let currentCoordinates = { lat: 41.9028, lon: 12.4964 };
+
+        // Funzione per aggiornare la posizione della mappa e del marker
+        function updateMap(lat, lon) {
+            map.setView([lat, lon], 15);
+            marker.setLatLng([lat, lon]);
+            currentCoordinates = { lat, lon }; // Salva le coordinate nella variabile globale
+
+            // Aggiorna la tabella con le coordinate
+            document.getElementById('latitudeCell').textContent = lat.toFixed(6);
+            document.getElementById('longitudeCell').textContent = lon.toFixed(6);
+        }
+
+        // Gestione del form per la ricerca di indirizzi
+        function moveToAddress() {
+            const address = document.getElementById('indirizzo').value;
+            if (!address) {
+                alert('Inserisci un indirizzo valido.');
+                return;
+            }
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        alert('Indirizzo non trovato.');
+                        return;
+                    }
+                    const lat = parseFloat(data[0].lat);
+                    const lon = parseFloat(data[0].lon);
+                    document.getElementById('latitudine').value = lat.toFixed(6);
+                    document.getElementById('longitudine').value = lon.toFixed(6);
+                    map.setView([lat, lon], 15);
+                    marker.setLatLng([lat, lon]);
+                })
+                .catch(error => alert('Errore: ' + error.message));
+        }
+
+// Funzione per calcolare il centroide
+async function calculateCentroid(coordinates) {
+    if (!Array.isArray(coordinates) || coordinates.length === 0) {
+        throw new Error("Coordinate non valide.");
+    }
+
+    let totalX = 0, totalY = 0, totalPoints = 0;
+    coordinates.forEach(polygon => {
+        polygon[0].forEach(point => {
+            totalX += point[0];
+            totalY += point[1];
+            totalPoints++;
+        });
+    });
+
+    return [totalX / totalPoints, totalY / totalPoints];
+}
+
+// Funzione per recuperare dati catastali dall'API
+function recoverapi() {
+    const indirizzo = document.getElementById('indirizzo').value.trim();
+    const apiUrl = `http://192.168.12.50:5000/foglio_catastale/${encodeURIComponent(indirizzo)}`;
+
+    fetch(apiUrl, { cache: 'no-store' })
+        .then(apiResponse => apiResponse.json())
+        .then(geojsonData => {
+            // Rimuove i layer esistenti prima di aggiungere nuovi dati
+            if (typeof geojsonLayer !== 'undefined') {
+                map.removeLayer(geojsonLayer);
+            }
+
+            geojsonLayer = L.geoJSON(geojsonData, {
+                style: {
+                    color: "red",
+                    weight: 2,
+                },
+                onEachFeature: (feature, layer) => {
+                    let popupContent = `
+                        <strong>Numero Particella:</strong> ${feature.properties?.PT_CODE || "N/A"}<br>
+                        <strong>Foglio:</strong> ${feature.properties?.PT_CCAT || "N/A"}<br>
+                        <strong>Tipo particella P/C:</strong> ${feature.properties?.PT_TYPE || "N/A"}<br>
+                        <strong>Fabbricato S/N:</strong> ${feature.properties?.PT_FABB || "N/A"}<br>
+                        <strong>Predisposto UB:</strong> ${feature.properties?.PT_EPFO || "NO"}
+                    `;
+                    layer.bindPopup(popupContent);
+
+                    layer.on('dblclick', async () => {
+                        try {
+                            const centroid = await calculateCentroid(feature.geometry.coordinates);
+                            const info = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${centroid[1]}&lon=${centroid[0]}`)
+                                .then(response => response.json());
+
+                            if (info) {
+                                console.log('Informazioni sul centroide:', info);
+                            } else {
+                                console.warn('Non sono state trovate informazioni per il centroide.');
+                            }
+                        } catch (error) {
+                            console.error("Errore:", error);
+                        }
+                    });
+                }
+            }).addTo(map);
+        })
+        .catch(error => {
+            console.error("Errore durante la chiamata all'API:", error);
+        });
+}
+    </script>
                     </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Mappa sotto il form -->
-<div class="row align-items-start">
-    <div class="col-lg-12">
-        <div class="col-lg-19 custom-border custom-border-map">
-            <div id="map-container">
-                <div id="map"></div>
+                    </div>
             </div>
-        </div>
-    </div>
-</div>
-
-                    <!-- INIZIO DEL JAVASCRIPT DELLA MAPPA 
-                        si trovano le funzioni di:
-                        -zoom in e zoom out
-                        -posizionamento del marker 
-                        -il loading dei diversi pezzzi della mappa "i tiles"
-                        -funzione per lo spostamento all'indirizzo indicato
-                    -->
-                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-                    <script>
-                        // Inizializza la mappa
-                        const map = L.map('map').setView([41.9028, 12.4964], 13); // Coordinate di default (Roma)
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        }).addTo(map);
-
-                        // Aggiungi un marker di default
-                        let marker = L.marker([41.9028, 12.4964]).addTo(map);
-
-                        // Funzione per aggiornare la posizione della mappa e del marker
-                        function updateMap(lat, lon) {
-                            map.setView([lat, lon], 15);
-                            marker.setLatLng([lat, lon]);
-                        }
-
-                        // Gestione del form per la ricerca di indirizzi
-                        async function moveToAddress() {
-                            const address = document.getElementById('indirizzo').value.trim();
-                            if (!address) {
-                                alert('Inserisci un indirizzo valido.');
-                                return;
-                            }
-
-                            try {
-                                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
-                                const responseText = await response.text();
-                                console.log('Risposta come testo:', responseText);
-
-                                const data = JSON.parse(responseText); // Converti manualmente
-                                if (!data || data.length === 0) {
-                                    alert('Indirizzo non trovato. Prova con un altro.');
-                                    return;
-                                }
-
-                                const lat = parseFloat(data[0].lat);
-                                const lon = parseFloat(data[0].lon);
-
-                                // Aggiorna la mappa e il marker
-                                updateMap(lat, lon);
-                            } catch (error) {
-                                console.error('Errore durante la ricerca dell\'indirizzo:', error);
-                                alert(`Errore durante la ricerca: ${error.message}`);
-                            }
-                        }
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
 
         <!-- Tabella -->
         <div class="my-4">
@@ -269,10 +311,20 @@
                                 <th>Indirizzo</th>
                                 <th>Latitudine</th>
                                 <th>Longitudine</th>
+                                <th>Codice ISTAT</th>
+                                <th>Tipo Edificio</th>
+                                <th>Data Predisposizione</th>
                             </tr>
                         </thead>
                         <tbody id="dati_registrati">
-                            <!-- Le righe verranno aggiunte dinamicamente -->
+                            <tr>
+                                <td></td>
+                                <td id="latitudeCell"></td>
+                                <td id="longitudeCell"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -281,46 +333,77 @@
     </main>
 
     <script src="https://unpkg.com/bootstrap-italia@2.11.0/dist/js/bootstrap-italia.bundle.min.js"></script>
-    <script>
-        function aggiungiDati() {
-            //prende i valori inseriti nel form
-            const indirizzo = document.getElementById("indirizzo").value.trim();
-            const codiceCatastale = document.getElementById("codice-catastale").value.trim();
-            const tipoEdificio = document.getElementById("tipo-edificio").value.trim();
-            const dataPredisposizione = document.getElementById("data-predisposizione").value.trim();
+<script>
+    async function aggiungiDati() {
+        const indirizzo = document.getElementById('indirizzo').value.trim();
+        const latitudine = document.getElementById('latitudine').value.trim();
+        const longitudine = document.getElementById('longitudine').value.trim();
+        const codiceIstat = document.getElementById('codice-istat').value.trim();
+        const tipoEdificio = document.getElementById('tipo-edificio').value.trim();
+        const dataPredisposizione = document.getElementById('data-predisposizione').value.trim();
 
-            // check campi obbligatori + alert
-            if (!indirizzo || !codiceCatastale || !tipoEdificio || !dataPredisposizione) {
-                alert("Per favore, compila tutti i campi del modulo.");
-                return;
+        // Verifica che tutti i campi siano compilati
+        if (!indirizzo || !latitudine || !longitudine || !codiceIstat || !tipoEdificio || !dataPredisposizione) {
+            alert('Per favore, compila tutti i campi.');
+            return;
+        }
+
+        // Aggiungi la riga alla tabella
+        const tbody = document.getElementById('dati_registrati');
+        const nuovaRiga = document.createElement('tr');
+        nuovaRiga.innerHTML = `
+            <td>${indirizzo}</td>
+            <td>${latitudine}</td>
+            <td>${longitudine}</td>
+            <td>${codiceIstat}</td>
+            <td>${tipoEdificio}</td>
+            <td>${dataPredisposizione}</td>
+            <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Elimina</button></td>
+        `;
+        tbody.appendChild(nuovaRiga);
+
+        // Prepara i dati per l'invio in formato JSON
+        const formData = {
+            indirizzo,
+            latitudine,
+            longitudine,
+            codiceIstat,
+            tipoEdificio,
+            dataPredisposizione,
+        };
+
+        try {
+            // Effettua la richiesta POST al backend
+            const response = await fetch('/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Successo:', data);
+                alert('Edificio registrato con successo!');
+            } else {
+                console.error('Errore nella richiesta:', response.statusText);
+                alert('Errore durante la registrazione dell\'edificio.');
             }
-
-            // seleziona la tabella
-            const tbody = document.getElementById("dati_registrati");
-
-            // crea la riga mancante
-            const nuovaRiga = document.createElement("tr");
-
-            // aggiunge le celle inserite nel form
-            nuovaRiga.innerHTML = `
-                <td>${indirizzo}</td>
-                <td>${codiceCatastale}</td>
-                <td>${tipoEdificio}</td>
-                <td>${dataPredisposizione}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="eliminaRiga(this)">Elimina</button></td>
-            `;
-
-            // aggiunge la riga al corpo
-            tbody.appendChild(nuovaRiga);
-
-            // reset dopo l'invio
-            document.getElementById("registrazione-edificio").reset();
+        } catch (error) {
+            console.error('Errore di rete:', error);
+            alert('Si è verificato un errore di rete.');
         }
 
-        function eliminaRiga(pulsante) {
-            const riga = pulsante.parentNode.parentNode;
-            riga.remove();
-        }
-    </script>
+        // Resetta il form dopo l'invio
+        document.getElementById('registrazione-edificio').reset();
+    }
+
+    function eliminaRiga(pulsante) {
+        const riga = pulsante.closest('tr');
+        riga.remove();
+    }
+</script>
+    
 </body>
 </html>
