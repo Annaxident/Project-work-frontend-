@@ -167,53 +167,39 @@
     <!-- Main Content -->
     <main class="container my-1">
         <h2 class="text-center" style="font-size: 1.7rem; margin-top: 5px; margin-bottom: 10px;  ">REGISTRAZIONE DEGLI EDIFICI PREDISPOSTI ALLA BANDA ULTRALARGA</h2>
-        <p class="text-start" style="font-size: 1rem; margin-left: -10px; margin-bottom: 10px;">Compila il modulo sottostante per registrare un edificio</p>
+        <p class="text-start" style="font-size: 1rem; margin-left: -10px; margin-bottom: 10px;">Inserisci l'indirizzo per registrare un edificio e vedere le sue coordinate</p>
 
-        <div class="row align-items-start">
-            <!-- Form -->
-            <div class="col-lg-4 custom-border">
-                <div class="it-card">
-                    <div class="it-card-body">
-                        <form id="registrazione-edificio">
-                            <div class="mb-3">
-                                <label for="indirizzo" class="form-label">Indirizzo</label>
-                                <div class="input-group" id="controls">
-                                    <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
-                                    <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo" onclick="moveToAddress()">
-                                        <img src="../static/lense.jpg" alt="Cerca" style="width: 20px; height: 20px;">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="codice-catastale" class="form-label">Codice Catastale</label>
-                                <input type="text" id="codice-catastale" name="codice-catastale" class="form-control" placeholder="Inserisci codice catastale">
-                            </div>
-                            <div class="mb-3">
-                                <label for="tipo-edificio" class="form-label">Tipo Edificio</label>
-                                <select id="tipo-edificio" name="tipo-edificio" class="form-select">
-                                    <option value="">Seleziona</option>
-                                    <option value="residenziale">Residenziale</option>
-                                    <option value="commerciale">Commerciale</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="data-predisposizione" class="form-label">Data di Predisposizione</label>
-                                <input type="date" id="data-predisposizione" name="data-predisposizione" class="form-control">
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
-                                <button type="submit" class="btn btn-success">Invio</button>
-                            </div>
-                        </form>
+<!-- Form sopra la mappa -->
+<div class="custom-border mb-3">
+    <div class="it-card">
+        <div class="it-card-body">
+            <form id="registrazione-edificio">
+                <div class="mb-3">
+                    <label for="indirizzo" class="form-label">Indirizzo</label>
+                    <div class="input-group" id="controls">
+                        <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
+                        <button class="btn btn-outline-secondary" type="button" id="cerca-indirizzo" onclick="moveToAddress()">
+                            <img src="../static/lense.jpg" alt="Cerca" style="width: 20px; height: 20px;">
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
+                        <button type="submit" class="btn btn-success">Invio</button>
                     </div>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Mappa sotto il form -->
+<div class="row align-items-start">
+    <div class="col-lg-12">
+        <div class="col-lg-19 custom-border custom-border-map">
+            <div id="map-container">
+                <div id="map"></div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <!-- Mappa -->
-            <div class="col-lg-8">
-                <div class="col-lg-19 custom-border custom-border-map">
-                <div id="map-container">
-                    <div id="map"></div>
                     <!-- INIZIO DEL JAVASCRIPT DELLA MAPPA 
                         si trovano le funzioni di:
                         -zoom in e zoom out
@@ -279,20 +265,14 @@
                 <div class="it-card-body">
                     <table class="table table-striped">
                         <thead>
-                            <tr >
-                                <th>INDIRIZZO</th>
-                                <th>CODICE CATASTALE</th>
-                                <th>TIPO EDIFICIO</th>
-                                <th>DATA PREDISPOSIONE</th>
+                            <tr>
+                                <th>Indirizzo</th>
+                                <th>Latitudine</th>
+                                <th>Longitudine</th>
                             </tr>
                         </thead>
                         <tbody id="dati_registrati">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <!-- Le righe verranno aggiunte dinamicamente -->
                         </tbody>
                     </table>
                 </div>
