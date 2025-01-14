@@ -145,8 +145,8 @@
 
     <!-- Main Content -->
     <main class="container my-3">
-        <h2 class="text-center"  style="font-size: 1.7rem";>Registrazione degli Edifici Predisposti alla Banda Ultralarga</h2>
-        <p class="text-center" style="font-size: 1rem"; >Compila il modulo sottostante per registrare un edificio predisposto alla banda ultralarga.</p>
+        <h2 class="text-center"  style="font-size: 1.7rem";>Registrazione delle terminazioni ottiche (TFO)</h2>
+        <p class="text-center" style="font-size: 1rem"; >Compila il modulo sottostante per registrare le terminazioni ottiche (TFO).</p>
 
             <!-- Form -->
             <style>
@@ -171,28 +171,20 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="latitudine" class="form-label">Latitudine</label>
-                <input type="text" id="latitudine" name="latitudine" class="form-control" readonly>
+                <label for="piano" class="form-label">Piano</label>
+                <input type="text" id="piano" name="piano" class="form-control" placeholder="Inserisci piano edificio">
             </div>
             <div class="mb-3">
-                <label for="longitudine" class="form-label">Longitudine</label>
-                <input type="text" id="longitudine" name="longitudine" class="form-control" readonly>
+                <label for="scala" class="form-label">Scala</label>
+                <input type="text" id="scala" name="scala" class="form-control" placeholder="Inserisci scala edificio">
             </div>
             <div class="mb-3">
-                <label for="codice-catastale" class="form-label">Codice ISTAT</label>
-                <input type="text" id="codice-istat" name="codice-istat" class="form-control" placeholder="Inserisci codice ISTAT">
+                <label for="interno" class="form-label">Interno</label>
+                <input type="text" id="interno" name="interno" class="form-control" placeholder="Inserisci interno edificio">
             </div>
             <div class="mb-3">
-                <label for="tipo-edificio" class="form-label">Tipo Edificio</label>
-                <select id="tipo-edificio" name="tipo-edificio" class="form-select">
-                    <option value="">Seleziona</option>
-                    <option value="residenziale">Residenziale</option>
-                    <option value="commerciale">Commerciale</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="data-predisposizione" class="form-label">Data di Predisposizione</label>
-                <input type="date" id="data-predisposizione" name="data-predisposizione" class="form-control">
+                <label for="posizioned" class="form-label">Posizione dettagliata</label>
+                <input type="text" id="posizioned" name="posizioned" class="form-control" placeholder="Inserisci informazioni aggiuntive">
             </div>
             <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
             <button type="submit" class="btn btn-success">Invio</button>
@@ -364,18 +356,16 @@ function recoverapi() {
                         <thead>
                             <tr>
                                 <th>Indirizzo</th>
-                                <th>Latitudine</th>
-                                <th>Longitudine</th>
-                                <th>Codice ISTAT</th>
-                                <th>Tipo Edificio</th>
-                                <th>Data Predisposizione</th>
+                                <th>Piano</th>
+                                <th>Scala</th>
+                                <th>Interno</th>
+                                <th>Posizione dettagliata</th>
                             </tr>
                         </thead>
                         <tbody id="dati_registrati">
                             <tr>
                                 <td></td>
-                                <td id="latitudeCell"></td>
-                                <td id="longitudeCell"></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
