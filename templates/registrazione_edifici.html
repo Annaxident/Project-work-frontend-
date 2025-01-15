@@ -78,17 +78,16 @@
 </head>
 <body>
     <!-- Header -->
-    <div class="it-header-slim-wrapper text-white" style="background-color: #013975;">
+    <div class="it-header-slim-wrapper text-white" style="background-color: #013975; height: 80px;">
         <div class="container-xxl">
             <div class="row align-items-center">
                 <div class="col-6">
                     <span class="d-flex align-items-center" style="font-size: 1rem; font-weight: bold";>
-                        <img src="../static/logo_repubblica_italiana.png" alt="Logo Ministero" style="height: 50px; margin-right: 8px;">
-                        Ministero delle Imprese e del Made in Italy
+                        <img src="../static/generation.png" alt="Logo Generation" style="height: 70px; margin-right: 8px;">
                     </span>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="#" class="text-white">Accedi all'area personale</a>
+                    <a href="https://italy.generation.org/" class="text-white">Generation Italy</a>
                 </div>
             </div>
         </div>
@@ -144,8 +143,6 @@
         </div>
     </header>
     
-    
-
     <!-- Main Content -->
     <main class="container my-3">
         <h2 class="text-center"  style="font-size: 1.7rem";>Registrazione degli Edifici Predisposti alla Banda Ultralarga</h2>
@@ -196,7 +193,7 @@
                 <input type="date" id="data-predisposizione" name="data-predisposizione" class="form-control">
             </div>
             <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
-            <button type="button" class="btn btn-success" onclick="inviaDati()">Invio</button>
+            <button type="submit" class="btn btn-success" onclick="inviaDati()">Invio</button>
         </form>
     </div>
 
@@ -339,10 +336,10 @@ function recoverapi(lat,lon) {
             console.log('edificiPredisposti:' , edificiPredisposti);
 
             geojsonData.features.forEach((data) => L.geoJSON(data, {
-                        style: {
-                            color: "red",
-                            weight: 2,
-                        },
+                style: feature => ({
+                        color: feature.properties.disponibilita ? "green" : "red",
+                        weight: 2
+                            }),
                         onEachFeature: function (feature, layer) {
         
                         // Eventi su ogni poligono
@@ -365,16 +362,18 @@ function recoverapi(lat,lon) {
                             document.getElementById('latitudine').value = centroid[1];
                             document.getElementById('longitudine').value = centroid[0];
                             document.getElementById('indirizzo').value = info.address.road + "," + info.address.house_number + "," + info.address.village  ;
-                            document.getElementById('comune').value = info.address.village;
-                            
 
-
-                            // Esempio di come usare i dati restituiti
-                            alert(`Luogo: ${info.display_name}`);
                         } else {
                             alert("Non è stato possibile recuperare informazioni dal centroide.");
                         }
 
+                        // Inizializza il marker se non esiste
+                        if (!marker) {
+                        marker = L.marker([centroid[1], centroid[0]]).addTo(mappa);
+                         } else {
+                        // Sposta il marker
+                        marker.setLatLng([centroid[1], centroid[0]]);
+                        }
                             
                         });
                     }
@@ -584,6 +583,10 @@ function recoverapi(lat,lon) {
                 <p>presso il Ministero delle Imprese e del Made in Italy Viale America, 201 - 00144 Roma</p>
             </div>
         </div>
+        <div class="text-center" style="margin-top: 25px;">
+            <p>Dichiarazione di Intento Didattico<br>
+        Questa applicazione è stata sviluppata esclusivamente a scopo esercitativo dagli studenti del corso "Generation". I dati presenti al suo interno sono interamente frutto di invenzione e non hanno alcun valore reale o ufficiale.
+        Qualsiasi riferimento a persone, luoghi, aziende o eventi è puramente casuale e utilizzato al solo fine di dimostrare le funzionalità dell'applicazione.</p></div>
     </div>
 </footer>
 <div class="footer-bottom text-center" style="background-color: #013975; height: 55px;">
