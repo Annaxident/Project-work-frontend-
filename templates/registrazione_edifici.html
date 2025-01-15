@@ -20,55 +20,14 @@
         padding: 10px 15px;
         border-radius: 5px;
         transition: background-color 0.3s ease;
-        }
+    }
 
-        .nav-link:hover {
+    .nav-link:hover {
         background-color: rgba(255, 255, 255, 0.1);
-        }
+    }
         .d-flex.flex-column.align-items-start {
-        margin-top: 20px;
-        }
-        footer {
-            background-color: #004E99;
-            color: white;
-            padding: 40px 0;
-        }
-        footer a {
-            color: #ffffff;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        h1 {
-            font-size: 25px;
-            font-weight: bold;
-            margin: auto;
-            font: #ffffff;
-        }
-        footer h5 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            
-        }
-        footer ul {
-            list-style: none;
-            padding: 0;
-        }
-        footer ul li {
-            margin-bottom: 10px;
-        }
-        footer .footer-bottom {
-            border-top: 1px solid #ffffff;
-            margin-top: 30px;
-            padding-top: 20px;
-            font-size: 14px;
-        }
-        h2 {
-            font-size: 25px;
-        }
-
+    margin-top: 20px;
+}
 
     </style>
 </head>
@@ -89,7 +48,7 @@
             </div>
         </div>
     </div>
-        <header class="it-header-wrapper">
+    <header class="it-header-wrapper">
         <div class="it-header-center-wrapper bg-primary">
             <div class="container-xxl">
                 <div class="row">
@@ -114,7 +73,6 @@
                             </div>
         
                             <!-- Sezione social -->
-
                             <div class="d-flex align-items-center gap-3">
                                 <span class="text-white">Seguici su</span>
                                 <a href="https://www.linkedin.com/company/infratel-italia/" class="text-white text-decoration-none"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
@@ -160,8 +118,9 @@
 <div class="row">
     <!-- Form -->
     <div class="col-lg-4 custom-border">
-        <form id="registrazione-edificio">
+        <form id="registrazioneedificio">
             <div class="mb-3">
+                <input type="hidden" id="edificioid"></input>
                 <label for="indirizzo" class="form-label">Indirizzo</label>
                 <div class="input-group" id="controls">
                     <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="Inserisci indirizzo">
@@ -179,10 +138,6 @@
                 <input type="text" id="longitudine" name="longitudine" class="form-control" readonly>
             </div>
             <div class="mb-3">
-                <label for="codice-catastale" class="form-label">Codice ISTAT</label>
-                <input type="text" id="codice-istat" name="codice-istat" class="form-control" placeholder="Inserisci codice ISTAT">
-            </div>
-            <div class="mb-3">
                 <label for="tipo-edificio" class="form-label">Tipo Edificio</label>
                 <select id="tipo-edificio" name="tipo-edificio" class="form-select">
                     <option value="">Seleziona</option>
@@ -195,7 +150,7 @@
                 <input type="date" id="data-predisposizione" name="data-predisposizione" class="form-control">
             </div>
             <button type="button" class="btn btn-primary" onclick="aggiungiDati()">Aggiungi</button>
-            <button type="submit" class="btn btn-success">Invio</button>
+            <button type="button" class="btn btn-success" onclick="inviaDati()">Invio</button>
         </form>
     </div>
 
@@ -222,6 +177,7 @@
                                 overflow: hidden;
                                 cursor: grab;
                             
+
                             }                      
                         </style>
                         <!-- INIZIO DEL JAVASCRIPT DELLA MAPPA 
@@ -231,25 +187,29 @@
                             -il loading dei diversi pezzzi della mappa "i tiles"
                             -funzione per lo spostamento all'indirizzo indicato
                             
-                            
+
                         -->
                         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Inizializza la mappa
-        const map = L.map('map').setView([41.9028, 12.4964], 13); // Coordinate di default (Roma)
+        const mappa = L.map('map').setView([41.9028, 12.4964], 13); // Coordinate di default (Roma)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        }).addTo(mappa);
 
         // Aggiungi un marker di default
-        let marker = L.marker([41.9028, 12.4964]).addTo(map);
+        let marker = L.marker([41.9028, 12.4964]).addTo(mappa);
+        
+        // Variabile globale per il layer GeoJSON
+        let geojsonLayer = null;
 
- // Variabile globale per salvare le coordinate
- let currentCoordinates = { lat: 41.9028, lon: 12.4964 };
+        // Variabile globale per salvare le coordinate
+        let currentCoordinates = { lat: 41.9028, lon: 12.4964 };
 
         // Funzione per aggiornare la posizione della mappa e del marker
         function updateMap(lat, lon) {
-            map.setView([lat, lon], 15);
+            console.log(lat,lon);
+            mappa.setView([lat, lon], 15);
             marker.setLatLng([lat, lon]);
             currentCoordinates = { lat, lon }; // Salva le coordinate nella variabile globale
 
@@ -277,11 +237,14 @@
                     const lon = parseFloat(data[0].lon);
                     document.getElementById('latitudine').value = lat.toFixed(6);
                     document.getElementById('longitudine').value = lon.toFixed(6);
-                    map.setView([lat, lon], 15);
+                    mappa.setView([lat, lon], 15);
+                    console.log(lat,lon)
                     marker.setLatLng([lat, lon]);
+                    recoverapi(lat, lon);
                 })
                 .catch(error => alert('Errore: ' + error.message));
-        }
+                
+            };
 
 // Funzione per calcolare il centroide
 async function calculateCentroid(coordinates) {
@@ -302,55 +265,129 @@ async function calculateCentroid(coordinates) {
 }
 
 // Funzione per recuperare dati catastali dall'API
-function recoverapi() {
-    const indirizzo = document.getElementById('indirizzo').value.trim();
-    const apiUrl = `http://192.168.12.50:5000/foglio_catastale/${encodeURIComponent(indirizzo)}`;
+function recoverapi(lat,lon) {
+    const latitudine = lat;
+    const longitudine = lon;
+    console.log("Requesting data for coordinates:", lat, lon);
 
+    const apiUrl = `/query_bounding_box?latitudine=${latitudine}&longitudine=${longitudine}`;
+    console.log("API URL:", apiUrl);
+    
     fetch(apiUrl, { cache: 'no-store' })
-        .then(apiResponse => apiResponse.json())
-        .then(geojsonData => {
-            // Rimuove i layer esistenti prima di aggiungere nuovi dati
-            if (typeof geojsonLayer !== 'undefined') {
-                map.removeLayer(geojsonLayer);
+        .then(apiResponse => {
+            if (!apiResponse.ok) {
+                throw new Error(`HTTP error! status: ${apiResponse.status}`);
             }
-
-            geojsonLayer = L.geoJSON(geojsonData, {
-                style: {
-                    color: "red",
-                    weight: 2,
-                },
-                onEachFeature: (feature, layer) => {
-                    let popupContent = `
-                        <strong>Numero Particella:</strong> ${feature.properties?.PT_CODE || "N/A"}<br>
-                        <strong>Foglio:</strong> ${feature.properties?.PT_CCAT || "N/A"}<br>
-                        <strong>Tipo particella P/C:</strong> ${feature.properties?.PT_TYPE || "N/A"}<br>
-                        <strong>Fabbricato S/N:</strong> ${feature.properties?.PT_FABB || "N/A"}<br>
-                        <strong>Predisposto UB:</strong> ${feature.properties?.PT_EPFO || "NO"}
-                    `;
-                    layer.bindPopup(popupContent);
-
-                    layer.on('dblclick', async () => {
-                        try {
-                            const centroid = await calculateCentroid(feature.geometry.coordinates);
-                            const info = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${centroid[1]}&lon=${centroid[0]}`)
-                                .then(response => response.json());
-
-                            if (info) {
-                                console.log('Informazioni sul centroide:', info);
-                            } else {
-                                console.warn('Non sono state trovate informazioni per il centroide.');
-                            }
-                        } catch (error) {
-                            console.error("Errore:", error);
-                        }
-                    });
-                }
-            }).addTo(map);
+            return apiResponse.json();
         })
-        .catch(error => {
-            console.error("Errore durante la chiamata all'API:", error);
+        .then(geojsonData => {
+            console.log("Received GeoJSON data:", geojsonData);
+
+            if (geojsonLayer) {
+                mappa.removeLayer(geojsonLayer);
+            }
+            const totaleEdifici = geojsonData.features.length;
+            const edificiPredisposti = contaEdificiPredisposti(geojsonData.features);
+            console.log('totale edifici:' , totaleEdifici);
+            console.log('edificiPredisposti:' , edificiPredisposti);
+
+            geojsonData.features.forEach((data) => L.geoJSON(data, {
+                        style: {
+                            color: "red",
+                            weight: 2,
+                        },
+                        onEachFeature: function (feature, layer) {
+        
+                        // Eventi su ogni poligono
+                        layer.on('dblclick', async function () {
+                            const id = feature.properties.id;
+                            const centroid = feature.properties.centroide;
+
+                            // Utilizza Nominatim per ottenere informazioni dal centroide
+                            const info = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${centroid[1]}&lon=${centroid[0]}`)
+                            .then(response => response.json())
+                            .catch(error => {
+                                console.error("Errore durante l'interrogazione di Nominatim:", error);
+                                return null;
+                            });
+
+                        // Controlla se abbiamo ricevuto dati
+                        if (info) {
+                            console.log("Informazioni ottenute da OSM:", info.address.road);
+                            document.getElementById('edificioid').value = id;
+                            document.getElementById('latitudine').value = centroid[1];
+                            document.getElementById('longitudine').value = centroid[0];
+                            document.getElementById('indirizzo').value = info.address.road + "," + info.address.house_number + "," + info.address.village  ;
+                            document.getElementById('comune').value = info.address.village;
+                            
+
+
+                            // Esempio di come usare i dati restituiti
+                            alert(`Luogo: ${info.display_name}`);
+                        } else {
+                            alert("Non è stato possibile recuperare informazioni dal centroide.");
+                        }
+
+                            
+                        });
+                    }
+                    }).addTo(mappa))
+            }).catch(error => {
+            console.error("Error during API call:", error);
+            alert("Errore nel recupero dei dati: " + error.message);
         });
-}
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        // Funzione per calcolare il centroide di un poligono
+        async function calculateCentroid(coordinates) {
+            let x = 0, y = 0, n = 0;
+            coordinates[0].forEach(coord => {
+                x += coord[0];
+                y += coord[1];
+                n++;
+            });
+            return [x / n, y / n];
+        }
+        // Funzione per contare gli edifici predisposti alla banda larga
+        function contaEdificiPredisposti(features) {
+          return features.filter(feature => feature.properties?.PT_EPFO === "S").length;
+        }
+    
+        // Funzione per creare il grafico della banda larga
+        function creaGraficoBandaLarga(totaleEdifici, edificiPredisposti) {
+          const edificiNonPredisposti = totaleEdifici - edificiPredisposti;
+    
+          new Chart(ctx, {
+              type: 'pie',
+              data: {
+                  labels: [
+                      `Predisposti (${edificiPredisposti})`,
+                      `Non Predisposti (${edificiNonPredisposti})`
+                  ],
+                  datasets: [{
+                      data: [edificiPredisposti, edificiNonPredisposti],
+                      backgroundColor: ['rgba(0, 255, 0, 0.7)', 'rgba(255, 0, 0, 0.7)'],
+                      borderColor: ['rgba(0, 255, 0, 1)', 'rgba(255, 0, 0, 1)'],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: { position: 'bottom' },
+                      title: {
+                          display: true,
+                          text: 'Edifici Predisposti alla Banda Larga',
+                          font: { size: 14, family: 'Arial', weight: 'bold' }
+                      }
+                  }
+              }
+          });
+        }
     </script>
                     </div>
                     </div>
@@ -360,26 +397,17 @@ function recoverapi() {
         <div class="my-4">
             <div class="it-card">
                 <div class="it-card-body">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="dati_registrati">
                         <thead>
                             <tr>
                                 <th>Indirizzo</th>
                                 <th>Latitudine</th>
                                 <th>Longitudine</th>
-                                <th>Codice ISTAT</th>
                                 <th>Tipo Edificio</th>
                                 <th>Data Predisposizione</th>
                             </tr>
                         </thead>
-                        <tbody id="dati_registrati">
-                            <tr>
-                                <td></td>
-                                <td id="latitudeCell"></td>
-                                <td id="longitudeCell"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                        <tbody id="dati_body">
                         </tbody>
                     </table>
                 </div>
@@ -388,124 +416,89 @@ function recoverapi() {
     </main>
 
     <script src="https://unpkg.com/bootstrap-italia@2.11.0/dist/js/bootstrap-italia.bundle.min.js"></script>
-<script>
-    async function aggiungiDati() {
-        const indirizzo = document.getElementById('indirizzo').value.trim();
-        const latitudine = document.getElementById('latitudine').value.trim();
-        const longitudine = document.getElementById('longitudine').value.trim();
-        const codiceIstat = document.getElementById('codice-istat').value.trim();
-        const tipoEdificio = document.getElementById('tipo-edificio').value.trim();
-        const dataPredisposizione = document.getElementById('data-predisposizione').value.trim();
-
-        // Verifica che tutti i campi siano compilati
-        if (!indirizzo || !latitudine || !longitudine || !codiceIstat || !tipoEdificio || !dataPredisposizione) {
-            alert('Per favore, compila tutti i campi.');
-            return;
-        }
-
-        // Aggiungi la riga alla tabella
-        const tbody = document.getElementById('dati_registrati');
-        const nuovaRiga = document.createElement('tr');
-        nuovaRiga.innerHTML = `
-            <td>${indirizzo}</td>
-            <td>${latitudine}</td>
-            <td>${longitudine}</td>
-            <td>${codiceIstat}</td>
-            <td>${tipoEdificio}</td>
-            <td>${dataPredisposizione}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Elimina</button></td>
-        `;
-        tbody.appendChild(nuovaRiga);
-
-        // Prepara i dati per l'invio in formato JSON
-        const formData = {
-            indirizzo,
-            latitudine,
-            longitudine,
-            codiceIstat,
-            tipoEdificio,
-            dataPredisposizione,
-        };
-
-        try {
-            // Effettua la richiesta POST al backend
-            const response = await fetch('/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Successo:', data);
-                alert('Edificio registrato con successo!');
-            } else {
-                console.error('Errore nella richiesta:', response.statusText);
-                alert('Errore durante la registrazione dell\'edificio.');
+    <script>
+        // Funzione per aggiungere dati alla tabella
+        function aggiungiDati() {
+            const id = document.getElementById('edificioid').value.trim();
+            const indirizzo = document.getElementById('indirizzo').value.trim();
+            const latitudine = document.getElementById('latitudine').value.trim();
+            const longitudine = document.getElementById('longitudine').value.trim();
+            const tipoEdificio = document.getElementById('tipo-edificio').value.trim();
+            const dataPredisposizione = document.getElementById('data-predisposizione').value.trim();
+    
+            // Verifica che tutti i campi siano compilati
+            if (!id || !indirizzo || !latitudine || !longitudine || !tipoEdificio || !dataPredisposizione) {
+                alert('Per favore, compila tutti i campi.');
+                return;
             }
-        } catch (error) {
-            console.error('Errore di rete:', error);
-            alert('Si è verificato un errore di rete.');
+    
+            // Aggiungi la riga alla tabella
+            const tbody = document.getElementById('dati_body');
+            const nuovaRiga = document.createElement('tr');
+            nuovaRiga.className = "record"
+            nuovaRiga.innerHTML = `
+                <td style="display: none">${id}</td>
+                <td>${indirizzo}</td>
+                <td>${latitudine}</td>
+                <td>${longitudine}</td>
+                <td>${tipoEdificio}</td>
+                <td>${dataPredisposizione}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Elimina</button></td>
+            `;
+            tbody.appendChild(nuovaRiga);
+    
+            // // Resetta il form
+            // document.getElementById('registrazione-edificio').reset();
         }
-
-        // Resetta il form dopo l'invio
-        document.getElementById('registrazione-edificio').reset();
-    }
-
-    function eliminaRiga(pulsante) {
-        const riga = pulsante.closest('tr');
-        riga.remove();
-    }
-</script>
-    <!--Footer-->
-    <footer>
-        <div class="it-footer-slim-wrapper text-white" style="background-color: #004E99;">
-            <div class="container-xxl" style="margin-left: 295px; margin-right: 10px;">
-                    <div class="text-center">
-                        <h2>INFRATEL ITALIA</h2></br>
-                    </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="https://www.sinfi.it/portal//wp-content/uploads/2023/11/logo-ministero-mimit.svg" width="200" height="200">
-                    <p>Ministero delle Imprese <br> e del Made in Italy</p><br>
-                    <img src="https://www.sinfi.it/portal//wp-content/uploads/2023/12/logo-infratel.png" width="200" height="100">
-                    <br><br>
-                    <p>Infratel Italia</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>CONTATTI</h5>
-                    <p>Infratel Italia S.p.A</p>
-                    <p>Società soggetta alla direzione ed al coordinamento dell'azionista unico Invitalia - Agenzia nazionale per l’attrazione degli investimenti e lo sviluppo d’impresa S.p.A.</p>
-                    <br><br>
-                    <p>Capitale sociale € 8.594.044,00 iscrizione al Registro delle Imprese di Roma</p>
-                    <p>C.F. e P.IVA 07791571008</p>
-                    <p>R.E.A. 1055521 Roma</p>
-                    <p>T +39 06 97749311</p>
-                    <p>F +39 06 97749370</p>
-                </div>
-                <div class="col-md-4">
-                    <p>info@infratelitalia.it</p>
-                    <p>infrastruttureservizidigitali@postacert.infratelitalia.it</p>
-                    <p>posta@pec.infratelitalia.it</p>
-                    <p>Sede legale</p>
-                    <p>presso Agenzia nazionale per l’attrazione degli investimenti e lo sviluppo d’impresa S.p.A Via Calabria, 46 – 00187 Roma</p>
-                    
-                    <p>Sede operativa</p>
-                    <p>presso il Ministero delle Imprese e del Made in Italy Viale America, 201 - 00144 Roma</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <div class="footer-bottom text-center" style="background-color: #013975; height: 55px;">
-        <a href="https://www.iubenda.com/privacy-policy/98489026/full-legal">Privacy policy</a> | 
-        <a href="https://www.iubenda.com/privacy-policy/98489026/cookie-policy">Cookie policy</a> | 
-        <a href="https://www.infratelitalia.it/social-media-policy">Social media policy</a> | 
-        <a href="https://www.sinfi.it/portal/consultazione-dati/i-servizi-del-sinfi/note-legali/">Note legali</a>
-    </div>
+    
+        // Funzione per inviare i dati al backend
+        async function inviaDati() {
+            // const tbody = document.getElementById('dati_registrati');
+            const righe = document.getElementById("dati_body").getElementsByClassName("record");
+            console.log(righe);
+    
+            if (righe.length === 0) {
+                alert('Nessun dato da inviare.');
+                return;
+            }
+    
+            const datiDaInviare = Array.from(righe).map(riga => {
+                const celle = riga.querySelectorAll('td');
+                return {
+                    id: celle[0].textContent,
+                    indirizzo: celle[1].textContent,
+                    latitudine: celle[2].textContent,
+                    longitudine: celle[3].textContent,
+                    tipoEdificio: celle[4].textContent,
+                    dataPredisposizione: celle[5].textContent,
+                };
+            });
+    
+            try {
+                // Effettua la richiesta POST al backend
+                const response = await fetch('/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(datiDaInviare),
+                });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Successo:', data);
+                    alert('Dati inviati con successo!');
+                    // Pulisce la tabella dopo l'invio
+                } else {
+                    console.error('Errore nella richiesta:', response.statusText);
+                    alert('Errore durante l\'invio dei dati.');
+                }
+            } catch (error) {
+                console.error('Errore di rete:', error);
+                alert('Si è verificato un errore di rete.');
+            }
+        }
+    </script>
+    
 </body>
 </html>
