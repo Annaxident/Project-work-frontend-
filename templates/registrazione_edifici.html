@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         #map-container {
-            height: 600px;
+            height: 530px;
             width: 100%;
             margin-top: 5px;
         }
@@ -20,14 +20,59 @@
         padding: 10px 15px;
         border-radius: 5px;
         transition: background-color 0.3s ease;
-    }
+        }
 
-    .nav-link:hover {
+        .nav-link:hover {
         background-color: rgba(255, 255, 255, 0.1);
-    }
+        }
         .d-flex.flex-column.align-items-start {
-    margin-top: 20px;
-}
+        margin-top: 20px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        footer {
+            background-color: #004E99;
+            color: white;
+            padding: 40px 0;
+        }
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 25px;
+            font-weight: bold;
+            margin: auto;
+            font: #ffffff;
+        }
+        footer h5 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer ul li {
+            margin-bottom: 10px;
+        }
+        footer .footer-bottom {
+            border-top: 1px solid #ffffff;
+            margin-top: 30px;
+            padding-top: 20px;
+            font-size: 14px;
+        }
+        h2 {
+            font-size: 25px;
+        }
 
     </style>
 </head>
@@ -67,8 +112,8 @@
                                 </div>
                                 <!-- Navigazione sotto il Brand -->
                                 <nav class="d-flex gap-4 nav-lower">
-                                    <a href="registrazione_edifici.html" class="text-white text-decoration-none nav-link" id="link-edifici">Registrazione edifici</a>
-                                    <a href="registrazione-terminazioni.html" class="text-white text-decoration-none nav-link" id="link-terminazioni">Registrazione terminazioni ottiche</a>
+                                    <a href="/" class="text-white text-decoration-none nav-link" id="link-edifici">Registrazione edifici</a>
+                                    <a href="/tfo" class="text-white text-decoration-none nav-link" id="link-terminazioni">Registrazione terminazioni ottiche</a>
                                 </nav>
                             </div>
         
@@ -113,6 +158,7 @@
                     border-radius: 10px; /* Angoli arrotondati */
                     padding: 15px; /* Spazio interno */
                     background-color: #f9f9f9; /* Colore di sfondo opzionale */
+                    height: 530px;
                 }
             </style>
 <div class="row">
@@ -160,6 +206,7 @@
             <div id="map"></div>
         </div>
     </div>
+</div>
 </div>
                         <style>
                             #map-container {
@@ -446,9 +493,6 @@ function recoverapi(lat,lon) {
                 <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Elimina</button></td>
             `;
             tbody.appendChild(nuovaRiga);
-    
-            // // Resetta il form
-            // document.getElementById('registrazione-edificio').reset();
         }
     
         // Funzione per inviare i dati al backend
@@ -500,5 +544,53 @@ function recoverapi(lat,lon) {
         }
     </script>
     
+<!--Footer-->
+<footer>
+    <div class="it-footer-slim-wrapper text-white" style="background-color: #004E99;">
+        <div class="container-xxl" style="margin-left: 295px; margin-right: 10px;">
+                <div class="text-center">
+                    <h2>INFRATEL ITALIA</h2></br>
+                </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="https://www.sinfi.it/portal//wp-content/uploads/2023/11/logo-ministero-mimit.svg" width="200" height="200">
+                <p>Ministero delle Imprese <br> e del Made in Italy</p><br>
+                <img src="https://www.sinfi.it/portal//wp-content/uploads/2023/12/logo-infratel.png" width="200" height="100">
+                <br><br>
+                <p>Infratel Italia</p>
+            </div>
+            <div class="col-md-4">
+                <h5>CONTATTI</h5>
+                <p>Infratel Italia S.p.A</p>
+                <p>Società soggetta alla direzione ed al coordinamento dell'azionista unico Invitalia - Agenzia nazionale per l’attrazione degli investimenti e lo sviluppo d’impresa S.p.A.</p>
+                <br><br>
+                <p>Capitale sociale € 8.594.044,00 iscrizione al Registro delle Imprese di Roma</p>
+                <p>C.F. e P.IVA 07791571008</p>
+                <p>R.E.A. 1055521 Roma</p>
+                <p>T +39 06 97749311</p>
+                <p>F +39 06 97749370</p>
+            </div>
+            <div class="col-md-4">
+                <p>info@infratelitalia.it</p>
+                <p>infrastruttureservizidigitali@postacert.infratelitalia.it</p>
+                <p>posta@pec.infratelitalia.it</p>
+                <p>Sede legale</p>
+                <p>presso Agenzia nazionale per l’attrazione degli investimenti e lo sviluppo d’impresa S.p.A Via Calabria, 46 – 00187 Roma</p>
+                
+                <p>Sede operativa</p>
+                <p>presso il Ministero delle Imprese e del Made in Italy Viale America, 201 - 00144 Roma</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="footer-bottom text-center" style="background-color: #013975; height: 55px;">
+    <a href="https://www.iubenda.com/privacy-policy/98489026/full-legal">Privacy policy</a> | 
+    <a href="https://www.iubenda.com/privacy-policy/98489026/cookie-policy">Cookie policy</a> | 
+    <a href="https://www.infratelitalia.it/social-media-policy">Social media policy</a> | 
+    <a href="https://www.sinfi.it/portal/consultazione-dati/i-servizi-del-sinfi/note-legali/">Note legali</a>
+</div>
 </body>
 </html>
